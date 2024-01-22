@@ -31,7 +31,6 @@ fun start(){
         {
             println("Некорректный ввод")
             help()
-            start()
         }
     }
 }
@@ -45,9 +44,14 @@ fun help(){
 
 fun add(){
     val name = addName()
-    val phone = addPhone()
-    val email = addEmail()
-    addPhoneBook(name, phone, email)
+    println("Введите phone если хотите добавить номер телефона \nВведите email если хотите добавить почту")
+    val input = readlnOrNull()?.lowercase() //чтение из консоли
+
+    when {
+        input == "exit"-> println("Выход")
+        input == "phone"-> addPhoneBook(name, addPhone())
+        input == "email"-> addPhoneBook(name, addEmail())
+    }
 }
 
 /**
@@ -71,11 +75,11 @@ fun printPhoneBook(){
  * Метод добавляет контакт в телефонную книгу
  * если ктонтакт уже существует то в существующий контакт добавляется новый номер телефона и почта
  */
-fun addPhoneBook(name: String?, phone: String?, email: String?){
-    val contact= arrayListOf(phone, email)
+fun addPhoneBook(name: String?, contact: String?){
+    val contacts= arrayListOf(contact)
     for (user in users) {
-        if (user.key == name) users[name] = users[name]!! + contact
-        else users.put(name, contact)
+        if (user.key == name) users[name] = users[name]!! + contacts
+        else users.put(name, contacts)
         printPhoneBook()
     }
 }
@@ -87,8 +91,8 @@ fun addPhoneBook(name: String?, phone: String?, email: String?){
 fun addPhone(): String?{
     println("Введите номер телефона")
     var phone = readlnOrNull()
-    while (phone?.matches(Regex("""[0-9]+""")) == false){
-        println("Введите имя контакта")
+    while (phone?.matches(Regex("""[0-9+]+""")) == false){
+        println("Некорректный ввод номера телефона")
         phone = readlnOrNull()
     }
     return phone
