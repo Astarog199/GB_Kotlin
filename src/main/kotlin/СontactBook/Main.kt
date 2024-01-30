@@ -11,7 +11,25 @@ package main.kotlin.СontactBook
  */
 
 fun main() {
-    val book = ContactsBook()
-    book.readCommand()
+    var status = true
+    while (status){
+        val book = ContactsBook()
+        val  reader = book.readCommand()
+          when(reader){
+              is Help ->{
+                  reader.run()
+              }
+              is GetContactsBook ->{
+                  reader.run(book.getUsers())
+              }
+              is Add ->{
+                  //TODO: Объект Person в ContactsBook() не добавляется
+                  book.addUser(reader.run())
+              }
+              is Show ->{
+                  reader.run()
+              }
+          }
 
+    }
 }
