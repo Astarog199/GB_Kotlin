@@ -5,13 +5,6 @@ class ContactsBook(){
     private var users = ArrayList<Person>()
     private var comList = ArrayList<String?>()
 
-
-    /*
-    — Добавьте новую команду show, которая выводит последнее значение, введённой с помощью команды add.
-    Для этого значение должно быть сохранено в переменную типа Person.
-    Если на момент выполнения команды show не было ничего введено, нужно вывести на экран сообщение “Not initialized”.
-     */
-
        fun getUsers(): ArrayList<Person> {
            return users
        }
