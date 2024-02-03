@@ -43,7 +43,7 @@ class ContactsBook(){
             "add" -> return Add()
             "get" -> return GetContactsBook(input)
             "show" -> return Show(users)
-            "finf" -> return Find()
+            "find" -> return Find()
             "phone" -> return AddPhone(addPhone())
             "email" -> return AddEmail(addEmail())
             else -> {

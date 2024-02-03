@@ -6,6 +6,7 @@ class Find: Command {
     }
 
     fun run(users: MutableList<Person>){
+        println("Введите номер телефона или почту для поиска имени Контакта")
         val input = readln()
         for (user in users){
            if (user.getPhone().contains(input) == true || user.getMail().contains(input) == true){
