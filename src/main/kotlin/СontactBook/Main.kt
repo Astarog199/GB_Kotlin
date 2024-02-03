@@ -12,7 +12,7 @@ package main.kotlin.СontactBook
 
 fun main() {
     var status = true
-    val book = ContactsBook()
+    var book = ContactsBook()
     while (status){
         val  reader = book.readCommand()
           when(reader){
@@ -23,10 +23,17 @@ fun main() {
                   reader.run(book.getUsers())
               }
               is Add ->{
-                  book.addUser(reader.run())
+                  reader.run(book)
               }
               is Show ->{
                   reader.run()
+              }
+              is Find ->{
+                  reader.run(book.getUsers())
+              }
+              //ToDo:Добавьте команду find, которая принимает email или телефон и выводит список людей, для которых записано такое значение.
+              else -> {
+                  println("Ошибка ввода")
               }
           }
 

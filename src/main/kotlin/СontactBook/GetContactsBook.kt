@@ -1,7 +1,7 @@
 package main.kotlin.СontactBook
 
 class GetContactsBook(val str: String):Command {
-    fun run(users: ArrayList<Person>){
+    fun run(users: MutableList<Person>){
         if (users.size>0) {
             for (user in users) {
                 println(user)

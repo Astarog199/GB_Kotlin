@@ -1,80 +1,82 @@
 package main.kotlin.СontactBook
 
-class Add: Command {
+class Add : Command {
 
     override fun isValid(): Boolean {
-    return true
+        return true
     }
 
-    fun run() : Person{
+    fun run(book: ContactsBook) {
+        var users = book.getUsers()
+
         val name = addName()
-        var phone = ""
-        var email = ""
-        println("Введите phone если хотите добавить номер телефона \nВведите email если хотите добавить почту")
-        val input = readlnOrNull()?.lowercase() //чтение из консоли
-        when {
-            input == "exit" -> return Person(name)
-            input == "phone" -> phone = addPhone()
-            input == "email" -> email = addEmail()
-            else -> {
-                println("Ошибка ввода. попробуйте еще раз или введите exit для выхода")
-                run()
+
+        if (users.size == 0) book.addUser(addNewPerson(name))
+
+        for (user in users) {
+            if (user.getName() == name) {
+                updatePerson(user, book)
+            } else {
+                book.addUser(addNewPerson(name))
             }
         }
-//        contactsBook.addUser(Person(name, phone, email))
-        return Person(name, phone, email)
     }
+}
 
-    /**
-     *Метод добавляет имя
-     */
+private fun updatePerson(user: Person, book: ContactsBook) {
+    println("Введите phone если хотите добавить номер телефона \nВведите email если хотите добавить почту")
+    val reader = book.readCommand()
 
-    private fun addName(): String {
-        println("Введите имя контакта")
-        var name = readln()
-        while (!name.matches(Regex("""[A-Za-z а-яёА-ЯЁ]+"""))) {
-            println("Некорректный ввод имени")
-            name = readln()
+
+    val email = mutableListOf<String>()
+
+    when (reader) {
+        is Exit -> {}
+        is AddPhone -> {
+            if (reader.isValid()) {
+                reader.run(user)
+            } else {
+                println("Некорректный ввод: должны только числа")
+            }
         }
-        val refactorName = funRefactorName(name)
-        return refactorName
+
+        is AddEmail -> {
+            if (reader.isValid()){
+                reader.run(user)
+            }else{
+                println("Некорректный ввод: пример mail@mail.ru")
+            }
+        }
+
+        else -> {
+            println("Ошибка ввода. попробуйте еще раз или введите exit для выхода")
+        }
     }
+}
 
-    private fun funRefactorName(name: String): String {
-        val refactorName = name.lowercase().trim()
-        return buildString {
-            append(refactorName.substring(0, 1).toUpperCase())
-            append(refactorName.substring(1, refactorName.length))
-        }
+private fun addNewPerson(name: String): Person {
+    return Person(name)
+}
+
+/**
+ *Метод добавляет имя
+ */
+
+private fun addName(): String {
+    println("Введите имя контакта")
+    var name = readln()
+    while (!name.matches(Regex("""[A-Za-z а-яёА-ЯЁ]+"""))) {
+        println("Некорректный ввод имени")
+        name = readln()
     }
+    val refactorName = funRefactorName(name)
+    return refactorName
+}
 
-    /**
-     * Метод проверяет введённое значение пользователем
-     * добавляет полученное значение в переменную phone
-     */
-
-    private fun addPhone(): String {
-        println("Введите номер телефона")
-        var phone = readln()
-        while (!phone.matches(Regex("""[0-9+]+"""))) {
-            println("Некорректный ввод номера телефона")
-            phone = readln()
-        }
-        return phone
-    }
-
-    /**
-     * Метод проверяет введённое значение пользователем
-     * добавляет полученное значение в переменную email
-     */
-
-    private fun addEmail(): String {
-        println("Введите почту")
-        var email = readln()
-        while (!email.matches(Regex("""[_A-Za-z0-9-]+@[_A-Za-z0-9-.]+\.[A-Za-z0-9-.]+"""))) {
-            println("Некорректный ввод")
-            email = readln()
-        }
-        return email
+private fun funRefactorName(name: String): String {
+    val refactorName = name.lowercase().trim()
+    return buildString {
+        append(refactorName.substring(0, 1).toUpperCase())
+        append(refactorName.substring(1, refactorName.length))
     }
 }
