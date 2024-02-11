@@ -34,11 +34,7 @@ data class Person (
     }
 
     fun printPhone(){
-        var step = 1
-        for (i in phone){
-            println("$step.phone: $i")
-        step++
-        }
+        phone.forEachIndexed { i: Int, s: String -> println("$i.phone: $s")}
     }
 
     fun addEmail(arg: String) {

@@ -1,7 +1,6 @@
 package main.kotlin.СontactBook
 
-class ContactsBook(){
-//ToDO: Теперь в телефонной книге могут храниться записи о нескольких людях. Используйте для этого наиболее подходящую структуру данных.
+class ContactsBook {
     private var users = mutableListOf<Person>()
 
        fun getUsers(): MutableList<Person> {
@@ -38,7 +37,7 @@ class ContactsBook(){
         println("Введите команду:")
         val input = readlnOrNull()?.lowercase()
         when(input) {
-            "exit" -> println("Конец программы")
+            "exit" -> return Exit()
             "help" -> return Help()
             "add" -> return Add()
             "get" -> return GetContactsBook(input)
@@ -46,6 +45,7 @@ class ContactsBook(){
             "find" -> return Find()
             "phone" -> return AddPhone(addPhone())
             "email" -> return AddEmail(addEmail())
+            "export" -> return Export()
             else -> {
                 println("Некорректный ввод")
             }
