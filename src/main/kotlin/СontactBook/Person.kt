@@ -9,11 +9,9 @@ package main.kotlin.СontactBook
  */
 
 data class Person (
-    //ToDo: Измените класс Person так, чтобы он содержал список телефонов и список почтовых адресов, связанных с человеком.
     private val name: String = "",
     private val phone: MutableList <String> = mutableListOf(),
     private val email: MutableList <String> = mutableListOf()
-
     ) {
 
 
@@ -29,19 +27,43 @@ data class Person (
         return email
     }
 
-    fun addPhone(arg: String){
-        phone.add(arg)
-    }
-
-    fun printPhone(){
-        phone.forEachIndexed { i: Int, s: String -> println("$i.phone: $s")}
-    }
-
     fun addEmail(arg: String) {
         email.add(arg)
     }
 
+    fun addPhone(arg: String){
+        phone.add(arg)
+    }
+
+    private fun jsonPhone(): String{
+        var str = "\"phones\": ["
+
+        for (i in phone){
+            if (phone.indexOf(i) != phone.size-1) {
+                str = "$str\"$i\","
+            }else{
+                str = "$str\"$i\""
+            }
+        }
+        return "$str]"
+    }
+
+    private fun jsonMail(): String{
+        var str = "\"emails\": ["
+
+
+        for (i in email){
+            if (email.indexOf(i) != email.size-1){
+                str = "$str\"$i\","
+            }else{
+                str = "$str\"$i\""
+            }
+        }
+
+        return "$str]"
+    }
+
     override fun toString(): String {
-        return " name:$name\n phone=${getPhone()}\n email=$email\n)"
+        return "{\"name\": \"$name\", ${jsonPhone()},${jsonMail()}}"
     }
 }
